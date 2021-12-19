@@ -1,6 +1,6 @@
 import './Board.css'
 import React from 'react';
-import {Button, Card, Col, Row, Container} from "react-bootstrap";
+import { Col, Row, Container} from "react-bootstrap";
 import Task from '../task/Task';
 
 function Board() {
@@ -20,8 +20,8 @@ function Board() {
                 {statuses.map(function(status, index) {
                      return <Col className='border border-dark selfAlignCenter dropZone' key={ status }>  
                         {tasks.map(function(task, index) {
-                            if (task.status === status) {
-                                // return Task();
+                            if (task['status'] === status) {
+                                return Task(task);
                             }
                         })
                     }
