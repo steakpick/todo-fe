@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, Card, Col, Form, FormControl, InputGroup, Row} from "react-bootstrap";
-import {FaPlusCircle, FaTrash} from "react-icons/all";
+import { FaTrash } from "react-icons/fa";
 
 function Tasks() {
     return (

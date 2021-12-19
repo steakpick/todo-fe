@@ -1,9 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Button, Offcanvas, Navbar, Container, Nav, Form} from "react-bootstrap";
-import {FaUserCircle} from "react-icons/all";
+import {FaUserCircle} from "react-icons/fa";
 import './NavbarComponent.css';
 import {useState} from "react";
-import Task from "../task/Task";
+import TaskCreation from "../TaskCreation/TaskCreation";
 import {NavbarData, SidebarData} from "./NavbarData";
 
 function NavbarComponent() {
@@ -21,8 +21,7 @@ function NavbarComponent() {
                     <Offcanvas.Title>Profile</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                    Some text as placeholder. In real life you can have the elements you
-                    have chosen. Like, text, images, lists, etc.
+                    
                 </Offcanvas.Body>
             </Offcanvas>
 
@@ -46,7 +45,7 @@ function NavbarComponent() {
                                 value={date}
                                 onChange={(e) => setDate(e.target.value)}/>
                         </Form.Group>
-                        <Task/>
+                        <TaskCreation/>
                         <Button variant="outline-dark" onClick={handleShow}>
                             <FaUserCircle/>
                         </Button>
