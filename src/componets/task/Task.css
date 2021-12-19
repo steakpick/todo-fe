@@ -1,0 +1,14 @@
+.ticket {
+    max-width: 150px;
+    max-height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.customTitle {
+    font-size: 0.9em;
+}
+
+.cardBody {
+    font-size: 0.8em;
+}
