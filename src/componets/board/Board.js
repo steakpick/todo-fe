@@ -1,278 +1,241 @@
-// import React, { useState } from "react";
-// import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-// import { v4 as uuid } from 'uuid';
-
-// const itemsFromBackend = [
-//     { id: uuid(), content: "First task" },
-//     { id: uuid(), content: "Second task" },
-//     { id: uuid(), content: "Third task" },
-//     { id: uuid(), content: "Fourth task" },
-//     { id: uuid(), content: "Fifth task" }
-// ];
-
-// const columnsFromBackend = {
-//     [uuid()]: {
-//         name: "Requested",
-//         items: itemsFromBackend
-//     },
-//     [uuid()]: {
-//         name: "To do",
-//         items: []
-//     },
-//     [uuid()]: {
-//         name: "In Progress",
-//         items: []
-//     },
-//     [uuid()]: {
-//         name: "Done",
-//         items: []
-//     }
-// };
-
-// const onDragEnd = (result, columns, setColumns) => {
-//     if (!result.destination) return;
-//     const { source, destination } = result;
-
-//     if (source.droppableId !== destination.droppableId) {
-//         const sourceColumn = columns[source.droppableId];
-//         const destColumn = columns[destination.droppableId];
-//         const sourceItems = [...sourceColumn.items];
-//         const destItems = [...destColumn.items];
-//         const [removed] = sourceItems.splice(source.index, 1);
-//         destItems.splice(destination.index, 0, removed);
-//         setColumns({
-//             ...columns,
-//             [source.droppableId]: {
-//                 ...sourceColumn,
-//                 items: sourceItems
-//             },
-//             [destination.droppableId]: {
-//                 ...destColumn,
-//                 items: destItems
-//             }
-//         });
-//     } else {
-//         const column = columns[source.droppableId];
-//         const copiedItems = [...column.items];
-//         const [removed] = copiedItems.splice(source.index, 1);
-//         copiedItems.splice(destination.index, 0, removed);
-//         setColumns({
-//             ...columns,
-//             [source.droppableId]: {
-//                 ...column,
-//                 items: copiedItems
-//             }
-//         });
-//     }
-// };
-
-// function Board() {
-//     const [columns, setColumns] = useState(columnsFromBackend);
-//     return (
-//         <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
-//             <DragDropContext
-//                 onDragEnd={result => onDragEnd(result, columns, setColumns)}
-//             >
-//                 {Object.entries(columns).map(([columnId, column], index) => {
-//                     return (
-//                         <div
-//                             style={{
-//                                 display: "flex",
-//                                 flexDirection: "column",
-//                                 alignItems: "center"
-//                             }}
-//                             key={columnId}
-//                         >
-//                             <h2>{column.name}</h2>
-//                             <div style={{ margin: 8 }}>
-//                                 <Droppable droppableId={columnId} key={columnId}>
-//                                     {(provided, snapshot) => {
-//                                         return (
-//                                             <div
-//                                                 {...provided.droppableProps}
-//                                                 ref={provided.innerRef}
-//                                                 style={{
-//                                                     background: snapshot.isDraggingOver
-//                                                         ? "lightblue"
-//                                                         : "lightgrey",
-//                                                     padding: 4,
-//                                                     width: 250,
-//                                                     minHeight: 500
-//                                                 }}
-//                                             >
-//                                                 {column.items.map((item, index) => {
-//                                                     return (
-//                                                         <Draggable
-//                                                             key={item.id}
-//                                                             draggableId={item.id}
-//                                                             index={index}
-//                                                         >
-//                                                             {(provided, snapshot) => {
-//                                                                 return (
-//                                                                     <div
-//                                                                         ref={provided.innerRef}
-//                                                                         {...provided.draggableProps}
-//                                                                         {...provided.dragHandleProps}
-//                                                                         style={{
-//                                                                             userSelect: "none",
-//                                                                             padding: 16,
-//                                                                             margin: "0 0 8px 0",
-//                                                                             minHeight: "50px",
-//                                                                             backgroundColor: snapshot.isDragging
-//                                                                                 ? "#263B4A"
-//                                                                                 : "#456C86",
-//                                                                             color: "white",
-//                                                                             ...provided.draggableProps.style
-//                                                                         }}
-//                                                                     >
-//                                                                         {item.content}
-//                                                                     </div>
-//                                                                 );
-//                                                             }}
-//                                                         </Draggable>
-//                                                     );
-//                                                 })}
-//                                                 {provided.placeholder}
-//                                             </div>
-//                                         );
-//                                     }}
-//                                 </Droppable>
-//                             </div>
-//                         </div>
-//                     );
-//                 })}
-//             </DragDropContext>
-//         </div>
-//     );
-// }
-
 import './Board.css'
 import React from 'react';
 import { Col, Row, Container } from "react-bootstrap";
 import Task from '../task/Task.js';
+import Board from '@asseinfo/react-kanban'
+import '@asseinfo/react-kanban/dist/styles.css'
 
-function Board() {
-    const statuses = getAllStatusesFromBE();
-    const tasks = getAllTasksFromBE();
-    return (
-        <div className='board'>
-            <Container className='border border-dark'>
-                <Row>
-                    {statuses.map(function (status, index) {
-                        return <Col className='border border-dark' key={status}>{status}</Col>;
-                    })
-                    }
-                </Row>
-                
-                <Row>
-                    {statuses.map(function (status, index) {
-                        return <Col className='border border-dark selfAlignCenter dropZone' key={status}>
-                            {tasks.map(function (task, index) {
-                                
-                                if (task['status'] === status) {
-                                    return <Task data={task}/>;
-                                }
-                                
-                            })
-                            }
-                        </Col>;
-                    })
-                    }
-                </Row>
-            </Container>
-        </div>
-    );
-}
+class TodoBoard extends React.Component {
+    render() {
+        let data = this.getBoardData();
+        return (<Board initialBoard={data} />);
+    }
 
-function getAllStatusesFromBE() {
-    // statuses will be taken automatically from BE TODO 
-    const statuses = ['Backlog', 'Todo', 'In progress', 'Ready for QA/Prod', 'Blocked', 'Done', 'Deployed to Prod'];
-    return statuses;
-}
+    getBoardData() {
+        const statusesResponse = this.getAllStatusesFromBE();
+        const tasksResponse = this.getAllTasksFromBE();
 
-function getAllTasksFromBE() {
-    const response = MockGetFromBE();
-    const state = response['status'];
+        var columns = [];
+        var card = new Map();
+        var columnIndex = 1;
+        for (const status of statusesResponse) {
+            var column = new Map();
+            column.set('id', columnIndex);
+            column.set('title', status);
 
-    var tasks = [];
-    if (state !== "OK") {
-        setErrorDueGetTasks(response['message']);
+            var cards = [];
+            var cardIndex = 0;
+            for (const task of tasksResponse) {
+                if (task['status'] != status) {
+                    continue;
+                }
+
+                card = this.createCard(cardIndex, task);
+                cards.push(card);
+                cardIndex++;
+            }
+            if (cards.length < 1) {
+                continue;
+            }
+
+            column = this.createColumn(status, columnIndex, cards);
+            columns.push(column);
+            ++columnIndex;
+        }
+
+        return this.createBoard(columns);
+    }
+
+    createCard(index, task) {
+        var card = new Map();
+        card.set('id', index + 1);
+        if (task['name']) {
+            card.set('title', task['name']);
+        }
+        if (task['description']) {
+            card.set('description', task['description']);
+        }
+
+        return Object.fromEntries(card);
+    }
+
+    createColumn(status, index, cards) {
+        var column = new Map();
+        column.set('cards', cards);
+        column.set('title', status);
+        column.set('id', index);
+
+        return Object.fromEntries(column);
+    }
+
+    createBoard(columns) {
+        var boardData = new Map();
+        boardData.set('columns', columns);
+        console.debug('Board: ', boardData);
+
+        return Object.fromEntries(boardData);
+    }
+
+    getAllStatusesFromBE() {
+        // statuses will be taken automatically from BE TODO 
+        const statuses = ['Todo', 'Doing', 'Done'];
+        return statuses;
+    }
+
+    getAllTasksFromBE() {
+        const response = this.MockGetFromBE();
+        const state = response['status'];
+
+        var tasks = [];
+        if (state !== "OK") {
+            this.setErrorDueGetTasks(response['message']);
+            return tasks;
+        }
+
+        tasks = response['taskList'];
+
         return tasks;
     }
 
-    tasks = response['taskList'];
-    console.log('tasks: ', tasks);
+    MockGetFromBE() {
+        return {
+            "message": "the request was successful",
+            "status": "OK",
+            "taskList": [
+                {
+                    "id": 1,
+                    "name": "Walk with a dog",
+                    "description": "Go to the central park.",
+                    "status": 'Todo',
+                    "importance": null,
+                    "urgency": null,
+                    "complexity": null,
+                    "priority": null,
+                    "creationDate": "2012-04-23T18:25:43",
+                    "startDate": null,
+                    "endDate": null,
+                    "dueDate": null
+                },
+                {
+                    "id": 2,
+                    "name": "A ride to the countryside.",
+                    "description": "Grandmother and grandfather are needed in help.",
+                    "status": 'Doing',
+                    "importance": null,
+                    "urgency": null,
+                    "complexity": null,
+                    "priority": null,
+                    "creationDate": "2012-04-23T18:25:43",
+                    "startDate": null,
+                    "endDate": null,
+                    "dueDate": null
+                },
+                {
+                    "id": 3,
+                    "name": "Meet with friend on Friday night.",
+                    "description": "Meet with Dmitrii Zalucean and Alexandr Serjant at the bar.",
+                    "status": 'Todo',
+                    "importance": null,
+                    "urgency": null,
+                    "complexity": null,
+                    "priority": null,
+                    "creationDate": "2012-04-23T18:25:43",
+                    "startDate": null,
+                    "endDate": null,
+                    "dueDate": null
+                },
+                {
+                    "id": 4,
+                    "name": "Complete APA project.",
+                    "description": "Create a TODO app with the board.",
+                    "status": 'Doing',
+                    "importance": null,
+                    "urgency": null,
+                    "complexity": null,
+                    "priority": null,
+                    "creationDate": "2012-04-23T18:25:43",
+                    "startDate": null,
+                    "endDate": null,
+                    "dueDate": null
+                },
+                {
+                    "id": 5,
+                    "name": "Read a book about ReactJS.",
+                    "description": "Investigate and learn React for APA project.",
+                    "status": 'Done',
+                    "importance": null,
+                    "urgency": null,
+                    "complexity": null,
+                    "priority": null,
+                    "creationDate": "2012-04-23T18:25:43",
+                    "startDate": null,
+                    "endDate": null,
+                    "dueDate": null
+                },
+                {
+                    "id": 6,
+                    "name": "Investigate cross-origin issue.",
+                    "description": "Investigate why can't my project be run from Google Chrome. Hint: Java issue.",
+                    "status": 'Done',
+                    "importance": null,
+                    "urgency": null,
+                    "complexity": null,
+                    "priority": null,
+                    "creationDate": "2012-04-23T18:25:43",
+                    "startDate": null,
+                    "endDate": null,
+                    "dueDate": null
+                },
+                {
+                    "id": 7,
+                    "name": "Go to the GYM.",
+                    "description": "I've been home working for a long time...",
+                    "status": 'Todo',
+                    "importance": null,
+                    "urgency": null,
+                    "complexity": null,
+                    "priority": null,
+                    "creationDate": "2012-04-23T18:25:43",
+                    "startDate": null,
+                    "endDate": null,
+                    "dueDate": null
+                },
+                {
+                    "id": 8,
+                    "name": "Complete all exams at University.",
+                    "description": "Prepare and pass all exams succcessfully.",
+                    "status": 'Todo',
+                    "importance": null,
+                    "urgency": null,
+                    "complexity": null,
+                    "priority": null,
+                    "creationDate": "2012-04-23T18:25:43",
+                    "startDate": null,
+                    "endDate": null,
+                    "dueDate": null
+                },
+                {
+                    "id": 9,
+                    "name": "Prepare for German language exam.",
+                    "description": "Repeat grammar, new lexic, prepare for the oral test.",
+                    "status": 'Doing',
+                    "importance": null,
+                    "urgency": null,
+                    "complexity": null,
+                    "priority": null,
+                    "creationDate": "2012-04-23T18:25:43",
+                    "startDate": null,
+                    "endDate": null,
+                    "dueDate": null
+                },
+            ]
+        };
+    }
 
-    return tasks;
+    setErrorDueGetTasks(errorMsg) {
+        return;
+    }
 }
 
-function MockGetFromBE() {
-    return {
-        "message": "the request was successful",
-        "status": "OK",
-        "taskList": [
-            {
-                "id": 1,
-                "name": "test",
-                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                "status": 'Backlog',
-                "importance": null,
-                "urgency": null,
-                "complexity": null,
-                "priority": null,
-                "creationDate": "2012-04-23T18:25:43",
-                "startDate": null,
-                "endDate": null,
-                "dueDate": null
-            },
-            {
-                "id": 2,
-                "name": "example",
-                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                "status": 'Todo',
-                "importance": null,
-                "urgency": null,
-                "complexity": null,
-                "priority": null,
-                "creationDate": "2012-04-23T18:25:43",
-                "startDate": null,
-                "endDate": null,
-                "dueDate": null
-            },
-            {
-                "id": 3,
-                "name": "sanea",
-                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                "status": 'In progress',
-                "importance": null,
-                "urgency": null,
-                "complexity": null,
-                "priority": null,
-                "creationDate": "2012-04-23T18:25:43",
-                "startDate": null,
-                "endDate": null,
-                "dueDate": null
-            },
-            {
-                "id": 4,
-                "name": "dima",
-                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                "status": 'Blocked',
-                "importance": null,
-                "urgency": null,
-                "complexity": null,
-                "priority": null,
-                "creationDate": "2012-04-23T18:25:43",
-                "startDate": null,
-                "endDate": null,
-                "dueDate": null
-            }
-        ]
-    };
-}
 
-function setErrorDueGetTasks(errorMsg) {
-    return;
-}
-
-export default Board;
+export default TodoBoard;
