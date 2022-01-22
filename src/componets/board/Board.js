@@ -9,34 +9,6 @@ class TodoBoard extends React.Component {
     render() {
         let data = this.getBoardData();
         return (<Board initialBoard={data} />);
-        // return (
-        //     <div className='board'>
-        //         <Container className='border border-dark'>
-        //             <Row>
-        //                 {statuses.map(function (status, index) {
-        //                     return <Col className='border border-dark' key={status}>{status}</Col>;
-        //                 })
-        //                 }
-        //             </Row>
-
-        //             <Row>
-        //                 {statuses.map(function (status, index) {
-        //                     return <Col className='border border-dark selfAlignCenter dropZone' key={status}>
-        //                         {tasks.map(function (task, index) {
-
-        //                             if (task['status'] === status) {
-        //                                 return <Task data={task}/>;
-        //                             }
-
-        //                         })
-        //                         }
-        //                     </Col>;
-        //                 })
-        //                 }
-        //             </Row>
-        //         </Container>
-        //     </div>
-        // );
     }
 
     getBoardData() {
@@ -132,8 +104,8 @@ class TodoBoard extends React.Component {
             "taskList": [
                 {
                     "id": 1,
-                    "name": "test",
-                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    "name": "Walk with a dog",
+                    "description": "Go to the central park.",
                     "status": 'Todo',
                     "importance": null,
                     "urgency": null,
@@ -146,8 +118,8 @@ class TodoBoard extends React.Component {
                 },
                 {
                     "id": 2,
-                    "name": "example",
-                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    "name": "A ride to the countryside.",
+                    "description": "Grandmother and grandfather are needed in help.",
                     "status": 'Doing',
                     "importance": null,
                     "urgency": null,
@@ -160,9 +132,9 @@ class TodoBoard extends React.Component {
                 },
                 {
                     "id": 3,
-                    "name": "sanea",
-                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                    "status": 'Done',
+                    "name": "Meet with friend on Friday night.",
+                    "description": "Meet with Dmitrii Zalucean and Alexandr Serjant at the bar.",
+                    "status": 'Todo',
                     "importance": null,
                     "urgency": null,
                     "complexity": null,
@@ -174,8 +146,50 @@ class TodoBoard extends React.Component {
                 },
                 {
                     "id": 4,
-                    "name": "dima",
-                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    "name": "Complete APA project.",
+                    "description": "Create a TODO app with the board.",
+                    "status": 'Doing',
+                    "importance": null,
+                    "urgency": null,
+                    "complexity": null,
+                    "priority": null,
+                    "creationDate": "2012-04-23T18:25:43",
+                    "startDate": null,
+                    "endDate": null,
+                    "dueDate": null
+                },
+                {
+                    "id": 5,
+                    "name": "Read a book about ReactJS.",
+                    "description": "Investigate and learn React for APA project.",
+                    "status": 'Done',
+                    "importance": null,
+                    "urgency": null,
+                    "complexity": null,
+                    "priority": null,
+                    "creationDate": "2012-04-23T18:25:43",
+                    "startDate": null,
+                    "endDate": null,
+                    "dueDate": null
+                },
+                {
+                    "id": 6,
+                    "name": "Investigate cross-origin issue.",
+                    "description": "Investigate why can't my project be run from Google Chrome. Hint: Java issue.",
+                    "status": 'Done',
+                    "importance": null,
+                    "urgency": null,
+                    "complexity": null,
+                    "priority": null,
+                    "creationDate": "2012-04-23T18:25:43",
+                    "startDate": null,
+                    "endDate": null,
+                    "dueDate": null
+                },
+                {
+                    "id": 7,
+                    "name": "Go to the GYM.",
+                    "description": "I've been home working for a long time...",
                     "status": 'Todo',
                     "importance": null,
                     "urgency": null,
@@ -185,7 +199,35 @@ class TodoBoard extends React.Component {
                     "startDate": null,
                     "endDate": null,
                     "dueDate": null
-                }
+                },
+                {
+                    "id": 8,
+                    "name": "Complete all exams at University.",
+                    "description": "Prepare and pass all exams succcessfully.",
+                    "status": 'Todo',
+                    "importance": null,
+                    "urgency": null,
+                    "complexity": null,
+                    "priority": null,
+                    "creationDate": "2012-04-23T18:25:43",
+                    "startDate": null,
+                    "endDate": null,
+                    "dueDate": null
+                },
+                {
+                    "id": 9,
+                    "name": "Prepare for German language exam.",
+                    "description": "Repeat grammar, new lexic, prepare for the oral test.",
+                    "status": 'Doing',
+                    "importance": null,
+                    "urgency": null,
+                    "complexity": null,
+                    "priority": null,
+                    "creationDate": "2012-04-23T18:25:43",
+                    "startDate": null,
+                    "endDate": null,
+                    "dueDate": null
+                },
             ]
         };
     }
